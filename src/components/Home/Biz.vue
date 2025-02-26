@@ -377,16 +377,18 @@
     </div>
 </template>
 
-<script>
-    import Titles from './Titles.vue';
+<script setup>
+import Titles from './Titles.vue';
+</script>
 
-    export default {
-        name: 'Biz',
-        props: {
-            viewport: Object
-        },
-        components: {
-            Titles,
-        }
+<script>
+export default {
+    name: 'Biz',
+    props: {
+        viewport: Object
+    },
+    components: {
+        Titles,
     }
+}
 </script>

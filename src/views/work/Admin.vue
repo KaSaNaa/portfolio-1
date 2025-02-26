@@ -313,119 +313,120 @@
     </div>
 </template>
 
-<script>
+<script setup>
 // styles
 import '@/styles/work.scss'
 import '@/styles/work/admin.scss'
 // ScrollMagic
 import * as ScrollMagic from 'scrollmagic'
+import { TimelineMax, Power3, Power0, Power2 } from 'gsap/all'
+import { onMounted, onBeforeUnmount, reactive } from 'vue'
 
-export default {
-    name: 'admin',
-    props: {
-        viewport: Object,
-    },
-    data() {
-        return {
-            intro: new TimelineMax(),
-            scroller: new ScrollMagic.Controller(),
-        }
-    },
-    methods: {},
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .clear(true)
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 20,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
+const viewport = reactive({
+    w: window.innerWidth,
+    h: window.innerHeight,
+    is568: window.innerWidth <= 568,
+    is768: window.innerWidth <= 768,
+    is1024: window.innerWidth <= 1024,
+})
 
-        /**
-         * @desc
-         * bg color scene
-         */
-        let sceneBg = new ScrollMagic.Scene({
-            triggerElement: '.project-start',
-            duration: document.body.offsetHeight,
+const intro = new TimelineMax()
+const scroller = new ScrollMagic.Controller()
+
+onMounted(() => {
+    /**
+     * @desc
+     * Intro scene
+     */
+    intro
+        .clear(true)
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 20,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
+
+    /**
+     * @desc
+     * bg color scene
+     */
+    let sceneBg = new ScrollMagic.Scene({
+        triggerElement: '.project-start',
+        duration: document.body.offsetHeight,
+    })
+        .addTo(scroller)
+        .reverse(true)
+
+    sceneBg
+        .on('enter', (e) => {
+            document.body.classList.add('-admin-bg')
         })
-            .addTo(this.scroller)
-            .reverse(true)
-
-        sceneBg
-            .on('enter', (e) => {
-                document.body.classList.add('-admin-bg')
-            })
-            .on('leave', (e) => {
-                if (e.scrollDirection === 'REVERSE') {
-                    document.body.classList.remove('-admin-bg')
-                }
-            })
-
-        /**
-         * @desc
-         * before-after scene
-         */
-        let tlComparison = new TimelineMax()
-
-        tlComparison.to('.old-new .new', 4, {
-            width: '100%',
-            ease: Power0.easeNone,
+        .on('leave', (e) => {
+            if (e.scrollDirection === 'REVERSE') {
+                document.body.classList.remove('-admin-bg')
+            }
         })
 
-        let sceneComparison = new ScrollMagic.Scene({
-            triggerElement: '.old-new',
-            duration: this.viewport.h / 2,
-        })
-            .setTween(tlComparison)
-            .addTo(this.scroller)
-            .reverse(true)
+    /**
+     * @desc
+     * before-after scene
+     */
+    let tlComparison = new TimelineMax()
 
-        /**
-         * @desc
-         * more screens scene
-         */
-        let tlMoreScreens = new TimelineMax()
+    tlComparison.to('.old-new .new', 4, {
+        width: '100%',
+        ease: Power0.easeNone,
+    })
 
-        tlMoreScreens.staggerFrom('.more-screens .m, .more-screens .d', 4, {
-            xPercent: 100,
-            autoAlpha: 0,
-            ease: Power2.easeOut,
-            stagger: 0.5,
-        })
+    let sceneComparison = new ScrollMagic.Scene({
+        triggerElement: '.old-new',
+        duration: viewport.h / 2,
+    })
+        .setTween(tlComparison)
+        .addTo(scroller)
+        .reverse(true)
 
-        let sceneMoreScreens = new ScrollMagic.Scene({
-            triggerElement: '.more-screens',
-            offset: -this.viewport.h / 2,
-            duration: this.viewport.h,
-        })
-            .setTween(tlMoreScreens)
-            .addTo(this.scroller)
-            .reverse(true)
-    },
-    beforeDestroy() {
-        this.scroller.destroy()
-    },
-}
+    /**
+     * @desc
+     * more screens scene
+     */
+    let tlMoreScreens = new TimelineMax()
+
+    tlMoreScreens.staggerFrom('.more-screens .m, .more-screens .d', 4, {
+        xPercent: 100,
+        autoAlpha: 0,
+        ease: Power2.easeOut,
+        stagger: 0.5,
+    })
+
+    let sceneMoreScreens = new ScrollMagic.Scene({
+        triggerElement: '.more-screens',
+        offset: -viewport.h / 2,
+        duration: viewport.h,
+    })
+        .setTween(tlMoreScreens)
+        .addTo(scroller)
+        .reverse(true)
+})
+
+onBeforeUnmount(() => {
+    scroller.destroy()
+})
 </script>

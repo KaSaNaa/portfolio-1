@@ -67,49 +67,49 @@
     </div>
 </template>
 
-<script>
+<script setup>
 // styles
 import '@/styles/work.scss'
+import { onMounted } from 'vue'
+import { TimelineMax, Power3 } from 'gsap'
 
-export default {
-    name: 'work',
-    props: {
-        viewport: Object,
-    },
-    data() {
-        return {
-            intro: new TimelineMax(),
-        }
-    },
-    methods: {},
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 70,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
-    },
-}
+const viewport = reactive({
+    w: window.innerWidth,
+    h: window.innerHeight,
+    is568: window.innerWidth <= 568,
+    is768: window.innerWidth <= 768,
+    is1024: window.innerWidth <= 1024,
+})
+
+const intro = new TimelineMax()
+
+onMounted(() => {
+    /**
+     * @desc
+     * Intro scene
+     */
+    intro
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 70,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
+})
 </script>

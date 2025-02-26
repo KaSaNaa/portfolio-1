@@ -12,24 +12,19 @@
         </svg>
     </div>
 </template>
-<script>
-export default {
-    data: () => {
-        return {
-            isloaded: false,
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const isloaded = ref(false)
+
+onMounted(() => {
+    setTimeout(() => {
+        if (document.readyState === 'complete') {
+            isloaded.value = true
         }
-    },
-    mounted() {
-        setTimeout(
-            function () {
-                if (document.readyState == 'complete') {
-                    this.isloaded = true
-                }
-            }.bind(this),
-            3000
-        )
-    },
-}
+    }, 3000)
+})
 </script>
 
 <style lang="scss" scoped>

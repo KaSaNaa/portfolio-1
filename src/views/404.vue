@@ -94,61 +94,42 @@
     </div>
 </template>
 
-<script>
-// styles
+<script setup>
+import { onMounted } from 'vue'
 import '@/styles/err404.scss'
-// loop animations
 import Astro from '@/js/astro'
 import Coffee from '@/js/coffee'
 
-export default {
-    name: '404',
-    data() {
-        return {
-            intro: new TimelineMax(),
-        }
-    },
-    methods: {},
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 90,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
+const intro = new TimelineMax()
 
-        // animate character
-        // setup
-        Astro.build()
-        Coffee.build()
-        // play
-        Astro.play()
-        Coffee.play()
-    },
-    beforeDestroy() {
-        // garbage
-        this.intro.destroy()
-    },
-}
+onMounted(() => {
+    intro
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 90,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
+
+    Astro.build()
+    Coffee.build()
+    Astro.play()
+    Coffee.play()
+})
 </script>

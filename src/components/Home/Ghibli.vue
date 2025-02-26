@@ -94,8 +94,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'Ghibli',
-}
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('Ghibli')
 </script>

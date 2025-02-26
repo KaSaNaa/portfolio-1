@@ -99,22 +99,20 @@
     </header>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import '@/styles/header.scss'
 
-export default {
-    name: 'Header',
-    props: {
-        routeName: String,
-        viewport: Object,
-    },
-    methods: {
-        openMenu() {
-            document.body.classList.add('-open-nav')
-        },
-        closeMenu() {
-            document.body.classList.remove('-open-nav')
-        },
-    },
+const routeName = ref('')
+const viewport = ref({
+    is768: false,
+})
+
+function openMenu() {
+    document.body.classList.add('-open-nav')
+}
+
+function closeMenu() {
+    document.body.classList.remove('-open-nav')
 }
 </script>

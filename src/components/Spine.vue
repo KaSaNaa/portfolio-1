@@ -8,8 +8,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'Spine',
-}
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('Spine')
 </script>

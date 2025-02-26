@@ -139,16 +139,15 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { reactive } from 'vue'
 import Titles from './Titles.vue'
 
-export default {
-    props: {
-        viewport: Object,
-    },
-    name: 'EarlyDays',
-    components: {
-        Titles,
-    },
-}
+const viewport = reactive({
+    w: window.innerWidth,
+    h: window.innerHeight,
+    is568: window.innerWidth <= 568,
+    is768: window.innerWidth <= 768,
+    is1024: window.innerWidth <= 1024,
+})
 </script>

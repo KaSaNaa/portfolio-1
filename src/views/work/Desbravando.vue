@@ -222,216 +222,216 @@
     </div>
 </template>
 
-<script>
+<script setup>
 // styles
 import '@/styles/work.scss'
 import '@/styles/work/desbravando.scss'
 // ScrollMagic
 import * as ScrollMagic from 'scrollmagic'
+import { TimelineMax, Power3, Power0 } from 'gsap/all'
+import { onMounted, onBeforeUnmount, reactive } from 'vue'
 
-export default {
-    name: 'desbravando',
-    props: {
-        viewport: Object,
-    },
-    data() {
-        return {
-            intro: new TimelineMax(),
-            scroller: new ScrollMagic.Controller(),
-        }
-    },
-    methods: {},
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .clear(true)
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 20,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
+const viewport = reactive({
+    w: window.innerWidth,
+    h: window.innerHeight,
+    is568: window.innerWidth <= 568,
+    is768: window.innerWidth <= 768,
+    is1024: window.innerWidth <= 1024,
+})
 
-        /**
-         * @desc
-         * bg color scene
-         */
-        let sceneBg = new ScrollMagic.Scene({
-            triggerElement: '.project-start',
-            offset: this.viewport.h / 4,
-            duration: document.body.offsetHeight,
+const intro = new TimelineMax()
+const scroller = new ScrollMagic.Controller()
+
+onMounted(() => {
+    /**
+     * @desc
+     * Intro scene
+     */
+    intro
+        .clear(true)
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 20,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
+
+    /**
+     * @desc
+     * bg color scene
+     */
+    let sceneBg = new ScrollMagic.Scene({
+        triggerElement: '.project-start',
+        offset: viewport.h / 4,
+        duration: document.body.offsetHeight,
+    })
+        .addTo(scroller)
+        .reverse(true)
+    sceneBg
+        .on('enter', (e) => {
+            document.body.classList.add('-desbravando-bg')
         })
-            .addTo(this.scroller)
-            .reverse(true)
-        sceneBg
-            .on('enter', (e) => {
-                document.body.classList.add('-desbravando-bg')
-            })
-            .on('leave', (e) => {
-                if (e.scrollDirection === 'REVERSE') {
-                    document.body.classList.remove('-desbravando-bg')
-                }
-            })
+        .on('leave', (e) => {
+            if (e.scrollDirection === 'REVERSE') {
+                document.body.classList.remove('-desbravando-bg')
+            }
+        })
 
-        /**
-         * @desc
-         * cd disc scene
-         */
-        let tlDisc = new TimelineMax()
-        if (this.viewport.is768) {
-            // 768 screen animation
-            tlDisc
-                .to('.cd-case .case', 4, {
+    /**
+     * @desc
+     * cd disc scene
+     */
+    let tlDisc = new TimelineMax()
+    if (viewport.is768) {
+        // 768 screen animation
+        tlDisc
+            .to('.cd-case .case', 4, {
+                bezier: {
+                    curviness: 0.5,
+                    values: [{ xPercent: -40 }, { xPercent: -10 }],
+                    autoRotate: false,
+                },
+            })
+            .to(
+                '.cd-case .disc',
+                4,
+                {
                     bezier: {
-                        curviness: 0.5,
-                        values: [{ xPercent: -40 }, { xPercent: -10 }],
+                        curviness: 1.25,
+                        values: [
+                            { xPercent: 60, rotation: 30, zIndex: 2 },
+                            { xPercent: 20, rotation: 10, zIndex: 10 },
+                        ],
                         autoRotate: false,
                     },
-                })
-                .to(
-                    '.cd-case .disc',
-                    4,
-                    {
-                        bezier: {
-                            curviness: 1.25,
-                            values: [
-                                { xPercent: 60, rotation: 30, zIndex: 2 },
-                                { xPercent: 20, rotation: 10, zIndex: 10 },
-                            ],
-                            autoRotate: false,
-                        },
-                    },
-                    0
-                )
-                .to(
-                    '.cd-case .disc-shadow',
-                    4,
-                    {
-                        bezier: {
-                            curviness: 0.5,
-                            values: [{ xPercent: 60 }, { xPercent: 20 }],
-                            autoRotate: false,
-                        },
-                    },
-                    0
-                )
-        } else {
-            // default screen animation
-            tlDisc
-                .to('.cd-case .case', 4, {
-                    xPercent: -20,
-                    ease: Power3.easeOut,
-                })
-                .fromTo(
-                    '.cd-case .disc',
-                    4,
-                    {
-                        rotation: -180,
-                    },
-                    {
-                        xPercent: 60,
-                        rotation: 10,
-                        ease: Power3.easeOut,
-                    },
-                    0
-                )
-                .to(
-                    '.cd-case .disc-shadow',
-                    4,
-                    {
-                        xPercent: 60,
-                        ease: Power3.easeOut,
-                    },
-                    0
-                )
-        }
-
-        let sceneDisc = new ScrollMagic.Scene({
-            triggerElement: '.project-start',
-            offset: -this.viewport.h / 4,
-            duration: this.viewport.h,
-        })
-            .setTween(tlDisc)
-            .addTo(this.scroller)
-            .reverse(true)
-
-        /**
-         * @desc
-         * cd gallery scene
-         */
-        let tlGallery = new TimelineMax()
-
-        tlGallery.staggerTo('.gallery-inspiration li', 4, {
-            yPercent: -40,
-            stagger: 0.5,
-        })
-
-        let sceneGallery = new ScrollMagic.Scene({
-            triggerElement: '.gallery-inspiration',
-            offset: -this.viewport.h / 4,
-            duration: this.viewport.h * 4,
-        })
-            .setTween(tlGallery)
-            .addTo(this.scroller)
-            .reverse(true)
-
-        /**
-         * @desc
-         * cd logo scene
-         */
-        let tlLogo = new TimelineMax()
-
-        tlLogo
-            .staggerTo(
-                '.LZeLLPey_0, .LZeLLPey_1, .LZeLLPey_2, .LZeLLPey_3, .LZeLLPey_4',
-                1,
-                {
-                    strokeDashoffset: 0,
-                    stagger: 1,
-                    ease: Power0.easeNone,
-                }
+                },
+                0
             )
-            .from(
-                '.pepe-logo .text',
-                5,
+            .to(
+                '.cd-case .disc-shadow',
+                4,
                 {
-                    autoAlpha: 0,
-                    yPercent: -25,
+                    bezier: {
+                        curviness: 0.5,
+                        values: [{ xPercent: 60 }, { xPercent: 20 }],
+                        autoRotate: false,
+                    },
+                },
+                0
+            )
+    } else {
+        // default screen animation
+        tlDisc
+            .to('.cd-case .case', 4, {
+                xPercent: -20,
+                ease: Power3.easeOut,
+            })
+            .fromTo(
+                '.cd-case .disc',
+                4,
+                {
+                    rotation: -180,
+                },
+                {
+                    xPercent: 60,
+                    rotation: 10,
                     ease: Power3.easeOut,
                 },
                 0
             )
+            .to(
+                '.cd-case .disc-shadow',
+                4,
+                {
+                    xPercent: 60,
+                    ease: Power3.easeOut,
+                },
+                0
+            )
+    }
 
-        let sceneLogo = new ScrollMagic.Scene({
-            triggerElement: '.pepe-logo',
-            offset: -this.viewport.h / 3,
-            duration: this.viewport.h,
-        })
-            .setTween(tlLogo)
-            .addTo(this.scroller)
-            .reverse(true)
-    },
-    beforeDestroy() {
-        this.scroller.destroy()
-    },
-}
-</script>
+    let sceneDisc = new ScrollMagic.Scene({
+        triggerElement: '.project-start',
+        offset: -viewport.h / 4,
+        duration: viewport.h,
+    })
+        .setTween(tlDisc)
+        .addTo(scroller)
+        .reverse(true)
+
+    /**
+     * @desc
+     * cd gallery scene
+     */
+    let tlGallery = new TimelineMax()
+
+    tlGallery.staggerTo('.gallery-inspiration li', 4, {
+        yPercent: -40,
+        stagger: 0.5,
+    })
+
+    let sceneGallery = new ScrollMagic.Scene({
+        triggerElement: '.gallery-inspiration',
+        offset: -viewport.h / 4,
+        duration: viewport.h * 4,
+    })
+        .setTween(tlGallery)
+        .addTo(scroller)
+        .reverse(true)
+
+    /**
+     * @desc
+     * cd logo scene
+     */
+    let tlLogo = new TimelineMax()
+
+    tlLogo
+        .staggerTo(
+            '.LZeLLPey_0, .LZeLLPey_1, .LZeLLPey_2, .LZeLLPey_3, .LZeLLPey_4',
+            1,
+            {
+                strokeDashoffset: 0,
+                stagger: 1,
+                ease: Power0.easeNone,
+            }
+        )
+        .from(
+            '.pepe-logo .text',
+            5,
+            {
+                autoAlpha: 0,
+                yPercent: -25,
+                ease: Power3.easeOut,
+            },
+            0
+        )
+
+    let sceneLogo = new ScrollMagic.Scene({
+        triggerElement: '.pepe-logo',
+        offset: -viewport.h / 3,
+        duration: viewport.h,
+    })
+        .setTween(tlLogo)
+        .addTo(scroller)
+        .reverse(true)
+})
+
+onBeforeUnmount(() => {
+    scroller.destroy()
+})

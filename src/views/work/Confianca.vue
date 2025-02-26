@@ -293,162 +293,166 @@
     </div>
 </template>
 
-<script>
+<script setup>
 // styles
 import '@/styles/work.scss'
 import '@/styles/work/confianca.scss'
 // ScrollMagic
 import * as ScrollMagic from 'scrollmagic'
+import { TimelineMax, Power3 } from 'gsap/all'
+import { ScrollMagicPluginGsap } from 'scrollmagic-plugin-gsap'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-export default {
-    name: 'confianca',
-    props: {
-        viewport: Object,
-    },
-    data() {
-        return {
-            intro: new TimelineMax(),
-            scroller: new ScrollMagic.Controller(),
-            qty: 0,
-        }
-    },
-    methods: {
-        addQty() {
-            if (this.qty === 10) return false // limit
-            return this.qty++
-        },
-        removeQty() {
-            if (this.qty <= 1) return (this.qty = 0)
-            return this.qty--
-        },
-    },
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .clear(true)
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 20,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
+ScrollMagicPluginGsap(ScrollMagic, TimelineMax)
 
-        /**
-         * @desc
-         * bg color scene
-         */
-        let sceneBg = new ScrollMagic.Scene({
-            triggerElement: '.project-start',
-            offset: this.viewport.h / 4,
-            duration: document.body.offsetHeight,
-        })
-            .addTo(this.scroller)
-            .reverse(true)
-        sceneBg
-            .on('enter', (e) => {
-                document.body.classList.add('-confianca-bg')
-            })
-            .on('leave', (e) => {
-                if (e.scrollDirection === 'REVERSE') {
-                    document.body.classList.remove('-confianca-bg')
-                }
-            })
+const viewport = ref({
+    w: window.innerWidth,
+    h: window.innerHeight,
+    is568: window.innerWidth <= 568,
+    is768: window.innerWidth <= 768,
+    is1024: window.innerWidth <= 1024,
+})
 
-        /**
-         * @desc
-         * mobile screens scene
-         */
-        let tlMobile = new TimelineMax()
+const intro = new TimelineMax()
+const scroller = new ScrollMagic.Controller()
+const qty = ref(0)
 
-        tlMobile.staggerFrom('.screen', 4, {
-            autoAlpha: 0,
-            yPercent: 25,
-            stagger: 0.5,
-            ease: Power3.easeOut,
-        })
-
-        let sceneMobile = new ScrollMagic.Scene({
-            triggerElement: '.project-start',
-            offset: -this.viewport.h / 4,
-            duration: this.viewport.h,
-        })
-            .setTween(tlMobile)
-            .addTo(this.scroller)
-            .reverse(true)
-            .setClassToggle('.mobile-screens', 'active')
-
-        /**
-         * @desc
-         * scroll screens scene
-         */
-        let tlScrolls = new TimelineMax()
-
-        tlScrolls
-            .to('.scroll-pages img', 4, {
-                top: '-100%',
-            })
-            .to(
-                '.scroll-pages .mobile',
-                4,
-                {
-                    yPercent: 20,
-                },
-                0
-            )
-
-        let sceneScrolls = new ScrollMagic.Scene({
-            triggerElement: '.scroll-pages',
-            duration: this.viewport.h,
-        })
-            .setTween(tlScrolls)
-            .addTo(this.scroller)
-            .reverse(true)
-            .setClassToggle('.scroll-pages', 'active')
-
-        /**
-         * @desc
-         * end screens scene
-         */
-        let tlEnd = new TimelineMax(),
-            end = document.querySelector('.end-screens').offsetHeight
-
-        tlEnd.staggerFrom('.end-screens .screen', 4, {
-            xPercent: -50,
-            ease: Power3.easeOut,
-            stagger: 0.2,
-        })
-
-        let sceneEnd = new ScrollMagic.Scene({
-            triggerElement: '.end-screens',
-            offset: -end,
-            duration: end,
-        })
-            .setTween(tlEnd)
-            .addTo(this.scroller)
-            .reverse(true)
-            .setClassToggle('.end-screens', 'active')
-    },
-    beforeDestroy() {
-        this.scroller.destroy()
-    },
+function addQty() {
+    if (qty.value === 10) return false // limit
+    return qty.value++
 }
-</script>
+
+function removeQty() {
+    if (qty.value <= 1) return (qty.value = 0)
+    return qty.value--
+}
+
+onMounted(() => {
+    /**
+     * @desc
+     * Intro scene
+     */
+    intro
+        .clear(true)
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 20,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
+
+    /**
+     * @desc
+     * bg color scene
+     */
+    let sceneBg = new ScrollMagic.Scene({
+        triggerElement: '.project-start',
+        offset: viewport.value.h / 4,
+        duration: document.body.offsetHeight,
+    })
+        .addTo(scroller)
+        .reverse(true)
+    sceneBg
+        .on('enter', (e) => {
+            document.body.classList.add('-confianca-bg')
+        })
+        .on('leave', (e) => {
+            if (e.scrollDirection === 'REVERSE') {
+                document.body.classList.remove('-confianca-bg')
+            }
+        })
+
+    /**
+     * @desc
+     * mobile screens scene
+     */
+    let tlMobile = new TimelineMax()
+
+    tlMobile.staggerFrom('.screen', 4, {
+        autoAlpha: 0,
+        yPercent: 25,
+        stagger: 0.5,
+        ease: Power3.easeOut,
+    })
+
+    let sceneMobile = new ScrollMagic.Scene({
+        triggerElement: '.project-start',
+        offset: -viewport.value.h / 4,
+        duration: viewport.value.h,
+    })
+        .setTween(tlMobile)
+        .addTo(scroller)
+        .reverse(true)
+        .setClassToggle('.mobile-screens', 'active')
+
+    /**
+     * @desc
+     * scroll screens scene
+     */
+    let tlScrolls = new TimelineMax()
+
+    tlScrolls
+        .to('.scroll-pages img', 4, {
+            top: '-100%',
+        })
+        .to(
+            '.scroll-pages .mobile',
+            4,
+            {
+                yPercent: 20,
+            },
+            0
+        )
+
+    let sceneScrolls = new ScrollMagic.Scene({
+        triggerElement: '.scroll-pages',
+        duration: viewport.value.h,
+    })
+        .setTween(tlScrolls)
+        .addTo(scroller)
+        .reverse(true)
+        .setClassToggle('.scroll-pages', 'active')
+
+    /**
+     * @desc
+     * end screens scene
+     */
+    let tlEnd = new TimelineMax(),
+        end = document.querySelector('.end-screens').offsetHeight
+
+    tlEnd.staggerFrom('.end-screens .screen', 4, {
+        xPercent: -50,
+        ease: Power3.easeOut,
+        stagger: 0.2,
+    })
+
+    let sceneEnd = new ScrollMagic.Scene({
+        triggerElement: '.end-screens',
+        offset: -end,
+        duration: end,
+    })
+        .setTween(tlEnd)
+        .addTo(scroller)
+        .reverse(true)
+        .setClassToggle('.end-screens', 'active')
+})
+
+onBeforeUnmount(() => {
+    scroller.destroy()
+})

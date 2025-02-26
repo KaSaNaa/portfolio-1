@@ -19,8 +19,8 @@
     </section>
 </template>
 
-<script>
-export default {
-    name: 'Wrapper',
-}
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('Wrapper')
 </script>

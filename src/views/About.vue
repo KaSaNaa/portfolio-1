@@ -231,78 +231,59 @@
     </div>
 </template>
 
-<script>
-// styles
+<script setup>
+import { onMounted } from 'vue'
 import '@/styles/about.scss'
-// ScrollMagic
 import * as ScrollMagic from 'scrollmagic'
 
-export default {
-    name: 'about',
-    data() {
-        return {
-            intro: new TimelineMax(),
-            scroller: new ScrollMagic.Controller(),
-        }
-    },
-    methods: {},
-    mounted() {
-        /**
-         * @desc
-         * Intro scene
-         */
-        this.intro
-            .addLabel('enter', 1)
-            .from(
-                '.title',
-                2,
-                {
-                    autoAlpha: 0,
-                    rotationX: 90,
-                    transformOrigin: '50% 50% -100px',
-                    ease: Power3.easeOut,
-                },
-                'enter'
-            )
-            .from(
-                '.std',
-                2,
-                {
-                    autoAlpha: 0,
-                    x: -32,
-                    ease: Power3.easeOut,
-                },
-                'enter+=1.5'
-            )
+const intro = new TimelineMax()
+const scroller = new ScrollMagic.Controller()
 
-        /**
-         * @desc
-         * Setup Time lines and Scenes
-         */
-        let duration = window.innerHeight
+onMounted(() => {
+    intro
+        .addLabel('enter', 1)
+        .from(
+            '.title',
+            2,
+            {
+                autoAlpha: 0,
+                rotationX: 90,
+                transformOrigin: '50% 50% -100px',
+                ease: Power3.easeOut,
+            },
+            'enter'
+        )
+        .from(
+            '.std',
+            2,
+            {
+                autoAlpha: 0,
+                x: -32,
+                ease: Power3.easeOut,
+            },
+            'enter+=1.5'
+        )
 
-        /**
-         * @desc
-         * header background scene
-         */
-        let tlHeader = new TimelineMax()
+    let duration = window.innerHeight
 
-        tlHeader.to('.header-bg', 4, {
-            autoAlpha: 1,
-            ease: Power0.easeNone,
-        })
+    let tlHeader = new TimelineMax()
 
-        new ScrollMagic.Scene({
-            triggerElement: '#about',
-            offset: duration / 4,
-            duration: duration,
-        })
-            .setTween(tlHeader)
-            .addTo(this.scroller)
-            .reverse(true)
-    },
-    beforeDestroy() {
-        this.scroller.destroy()
-    },
-}
+    tlHeader.to('.header-bg', 4, {
+        autoAlpha: 1,
+        ease: Power0.easeNone,
+    })
+
+    new ScrollMagic.Scene({
+        triggerElement: '#about',
+        offset: duration / 4,
+        duration: duration,
+    })
+        .setTween(tlHeader)
+        .addTo(scroller)
+        .reverse(true)
+})
+
+onBeforeUnmount(() => {
+    scroller.destroy()
+})
 </script>

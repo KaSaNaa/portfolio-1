@@ -8,8 +8,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'BgBody',
-}
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('BgBody')
 </script>

@@ -55,8 +55,8 @@
     </section>
 </template>
 
-<script>
-export default {
-    name: 'SuperMario',
-}
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('SuperMario')
 </script>

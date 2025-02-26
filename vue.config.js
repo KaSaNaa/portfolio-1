@@ -19,6 +19,8 @@ if (process.env.NODE_ENV === 'production') {
         }),
         new GenerateSW({
             swDest: 'iuri.is-sw.js',
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ]
 }
