@@ -124,7 +124,7 @@ export default {
                         backgroundColor: 'transparent',
                     },
                     {
-                        backgroundColor: '#ff0000',
+                        backgroundColor: '#a2ff00',
                     },
                     'enter+=1.2'
                 )

@@ -2,14 +2,14 @@
     <section class="scene-intro" id="intro">
         <div class="static-container">
             <h1 class="title">
-                <span class="iuri">Avin</span>
+                <span class="iuri">Kasana</span>
                 <span class="func">.here()</span>
             </h1>
 
             <div class="std">
-                <p class="-purple">I am Avin</p>
+                <p class="-purple">Hey there! I'm Pasindu, closest ones call me Kasana</p>
                 <p class="-gray">
-                    He/Him | Sri Lankan | Tech Nerd | Programmer (sorta).<br />
+                    Honorable/Sir | Sri Lankan | Builder | Engineer (sorta).<br />
                 </p>
             </div>
         </div>

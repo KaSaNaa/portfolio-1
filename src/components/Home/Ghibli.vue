@@ -4,11 +4,11 @@
             <div class="static-container">
                 <div class="std">
                     <p>
-                        avin.here()
+                        kasana.here()
                         <span class="-big -purple">
                             I am currently, an undergraduate
                         </span>
-                        in Information Technology.
+                        in Comp Sci.
                     </p>
                 </div>
             </div>
@@ -74,12 +74,12 @@
             <div class="static-container">
                 <div class="std">
                     <p class="-big">
-                        check out my professional (and only professional ;) side
+                        check out my professional (and only professional;) side
                         on
                         <span class="-purple"
                             ><a
-                                style="color: ##000000"
-                                href="https://www.linkedin.com/in/avinin/"
+                                style="color: #000000"
+                                href="https://www.linkedin.com/in/pasinduranawakage/"
                                 target="_blank"
                                 title="Visit Biz Commerce's website"
                                 >"LinkedIn."</a

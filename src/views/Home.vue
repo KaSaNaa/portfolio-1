@@ -12,7 +12,7 @@
                 too many things(<span class="params">'/.*$/g'</span>)
             </h1>
             <h1 class="title" v-else>
-                Probably passionate about too many things(<span class="params"
+                Probably passionate about<br/> too many things(aka ADHD)(<span class="params"
                     >'/.*$/g'</span
                 >)
             </h1>

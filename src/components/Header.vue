@@ -9,7 +9,7 @@
         </div>
 
         <div class="header-container">
-            <div class="header-breadcrumb">Avin.Here()</div>
+            <div class="header-breadcrumb">Kasana.Here()</div>
 
             <button
                 v-if="viewport.is768"
@@ -39,7 +39,7 @@
                 <ul>
                     <li>
                         <router-link to="/" title="Home"
-                            >avin.here()</router-link
+                            >Kasana.here()</router-link
                         >
                     </li>
                     <li>
@@ -51,7 +51,7 @@
                     </li>
                     <li class="social-link">
                         <a
-                            href="https://www.linkedin.com/in/avinin/"
+                            href="https://www.linkedin.com/in/pasinduranawakage/"
                             target="_blank"
                             title="LinkedIn"
                         >
@@ -73,7 +73,7 @@
                     </li>
                     <li class="social-link">
                         <a
-                            href="https://github.com/avincodes"
+                            href="https://github.com/KaSaNaa"
                             target="_blank"
                             title="GitHub"
                         >

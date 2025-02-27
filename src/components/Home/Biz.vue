@@ -2,7 +2,7 @@
     <div>
         <Titles :viewport="viewport" scene="bizTitle">
             <h1 class="title">
-                @ Pissu Kanna(<span class="params">2022</span>)
+                @ SynergySIS(<span class="params">2024</span>)
             </h1>
         </Titles>
 

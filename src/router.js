@@ -16,12 +16,12 @@ const router = new Router({
             name: '.is()',
             component: Home,
             meta: {
-                title: 'Avin.Here',
+                title: 'Kasana.Here',
                 bodyClass: 'page-home',
                 metaTags: [
                     {
                         name: 'description',
-                        content: 'I am Avin and this is my portfolio',
+                        content: 'I am Kasana and this is my portfolio',
                     },
                     // facebook
                     {
@@ -34,7 +34,7 @@ const router = new Router({
                     },
                     {
                         name: 'og:description',
-                        content: 'I am Avin and this is my portfolio',
+                        content: 'I am Kasana and this is my portfolio',
                     },
                     // twitter
                     {
@@ -47,7 +47,7 @@ const router = new Router({
                     },
                     {
                         name: 'twitter:description',
-                        content: 'I am Avin and this is my portfolio',
+                        content: 'I am Kasana and this is my portfolio',
                     },
                 ],
             },

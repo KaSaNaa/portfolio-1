@@ -74,7 +74,7 @@
                                 <a href="" title="Listen to BadBadNotGood" target="_blank">Special thanks to,</a>
                             </li>
                             <li class="khruangbin">
-                                <a href="https://thenu.tk/" title="Listen to Khruangbin" target="_blank">Thenu</a>
+                                <a href="https://github.com/KaSaNaa" title="Listen to Khruangbin" target="_blank">Avin</a>
                             </li>
                             <li class="toumani">
                                 <a href="https://iuri.is/" title="Listen to Toumani" target="_blank">Iuri de Paula</a>
@@ -106,7 +106,7 @@
                     
                 </p>
                 <p>
-                    or say "Hi" at hello@avinhere.me <span class="-purple">;)</span>
+                    or say "Hi" at ranawakagepasindu@gmail.com <span class="-purple">;)</span>
                 </p>
             </div>
 
